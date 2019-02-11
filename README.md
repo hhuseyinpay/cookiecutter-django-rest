@@ -1,1 +1,1 @@
-My fork of django rest framework cookiecutter
+personalized for my own projects
