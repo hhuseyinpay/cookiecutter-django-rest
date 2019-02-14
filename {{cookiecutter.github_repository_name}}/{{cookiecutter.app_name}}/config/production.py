@@ -13,7 +13,7 @@ class Production(Common):
     ALLOWED_HOSTS = ["*"]
     INSTALLED_APPS += ("gunicorn", )
 
-    sentry_sdk.init(
-        dsn="**SENTRY URL**",
-        integrations=[DjangoIntegration()]
-    )
+    #sentry_sdk.init(
+    #    dsn="**SENTRY URL**",
+    #    integrations=[DjangoIntegration()]
+    #)
