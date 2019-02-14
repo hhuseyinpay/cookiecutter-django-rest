@@ -27,10 +27,11 @@ class MyUserCreationForm(UserCreationForm):
 class MyUserAdmin(UserAdmin):
     form = MyUserChangeForm
     add_form = MyUserCreationForm
-    fieldsets = UserAdmin.fieldsets + (
-        ('Sonradan eklenenler', {
-            'fields': ('adres', 'yetki', 'cep_no', 'referans', 'aciklama')}),
-    )
+    # For extra field.
+    # fieldsets = UserAdmin.fieldsets + (
+    #     ('Sonradan eklenenler', {
+    #         'fields': ('',)}),
+    # )
 
 
 @admin.register(User)
