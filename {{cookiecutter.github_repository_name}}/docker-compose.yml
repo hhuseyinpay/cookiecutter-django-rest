@@ -11,9 +11,8 @@ services:
 
   app:
     restart: always
-
-    image: app
     build: ./
+
     #    command: >
     #      bash -c "python wait_for_postgres.py &&
     #               ./manage.py migrate &&
@@ -22,8 +21,11 @@ services:
     #       bash -c "./manage.py migrate &&
     #                ./manage.py runserver 0.0.0.0:8000"
     command: gunicorn -w 4 -b 0.0.0.0:8000 {{ cookiecutter.app_name }}.wsgi
-  volumes:
-    - ./:/app
+    
+    volumes:
+      - ./:/app
+      - static-volume:/app/static
+      - media-volume:/app/media
     depends_on:
       - postgres
     env_file: .env
@@ -34,10 +36,12 @@ services:
       - 80:80
     volumes:
       - ./nginx/production.conf:/etc/nginx/nginx.conf:ro
-      - ./media:/media/
-      - ./static:/static/
+      - static-volume:/static/
+      - media-volume:/media/
     depends_on:
       - app
 volumes:
   db-data:
+  static-volume:
+  media-volume:
 
