@@ -14,16 +14,16 @@ services:
 
     image: app
     build: ./
-#    command: >
-#      bash -c "python wait_for_postgres.py &&
-#               ./manage.py migrate &&
-#               ./manage.py runserver 0.0.0.0:8000"
-#    command: >
-#       bash -c "./manage.py migrate &&
-#                ./manage.py runserver 0.0.0.0:8000"
+    #    command: >
+    #      bash -c "python wait_for_postgres.py &&
+    #               ./manage.py migrate &&
+    #               ./manage.py runserver 0.0.0.0:8000"
+    #    command: >
+    #       bash -c "./manage.py migrate &&
+    #                ./manage.py runserver 0.0.0.0:8000"
     command: gunicorn -w 4 -b 0.0.0.0:8000 {{ cookiecutter.app_name }}.wsgi
   volumes:
-      - ./:/app
+    - ./:/app
     depends_on:
       - postgres
     env_file: .env
@@ -39,5 +39,5 @@ services:
     depends_on:
       - app
 volumes:
-    db-data:
+  db-data:
 
