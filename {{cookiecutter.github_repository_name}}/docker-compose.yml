@@ -20,7 +20,7 @@ services:
     #    command: >
     #       bash -c "./manage.py migrate &&
     #                ./manage.py runserver 0.0.0.0:8000"
-    command: gunicorn -w 4 -b 0.0.0.0:8000 --access-logfile {{ cookiecutter.app_name }}.wsgi
+    command: gunicorn -w 4 -b 0.0.0.0:8000 {{ cookiecutter.app_name }}.wsgi:application
     
     volumes:
       - ./:/app
