@@ -34,7 +34,7 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./nginx/dev.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/production.conf:/etc/nginx/nginx.conf:ro
       - ./{{ cookiecutter.app_name }}/media:/media/
       - ./{{ cookiecutter.app_name }}/static:/static/
 volumes:
