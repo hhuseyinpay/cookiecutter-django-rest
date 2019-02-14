@@ -1,8 +1,11 @@
 import os
 from os.path import join
 from distutils.util import strtobool
+
 import dj_database_url
 from configurations import Configuration
+from corsheaders.defaults import default_headers
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -16,14 +19,15 @@ class Common(Configuration):
         'django.contrib.messages',
         'django.contrib.staticfiles',
 
-
         # Third party apps
         'rest_framework',            # utilities for rest apis
         'rest_framework.authtoken',  # token authentication
         'django_filters',            # for filtering rest endpoints
+        'drf_yasg',                  # swagger
+        'corsheaders',               # for ajax queries
 
         # Your apps
-        '{{cookiecutter.app_name}}.users',
+        '{{cookiecutter.app_name}}.accounts',
 
     )
 
@@ -31,6 +35,7 @@ class Common(Configuration):
     MIDDLEWARE = (
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
+        # 'corsheaders.middleware.CorsMiddleware',
         'django.middleware.common.CommonMiddleware',
         'django.middleware.csrf.CsrfViewMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -60,8 +65,8 @@ class Common(Configuration):
 
     # General
     APPEND_SLASH = False
-    TIME_ZONE = 'UTC'
-    LANGUAGE_CODE = 'en-us'
+    TIME_ZONE = 'Europe/Istanbul'
+    LANGUAGE_CODE = 'tr-TR'
     # If you set this to False, Django will make some optimizations so as not
     # to load the internationalization machinery.
     USE_I18N = False
@@ -180,7 +185,7 @@ class Common(Configuration):
     }
 
     # Custom user app
-    AUTH_USER_MODEL = 'users.User'
+    AUTH_USER_MODEL = 'accounts.User'
 
     # Django Rest Framework
     REST_FRAMEWORK = {
@@ -199,3 +204,6 @@ class Common(Configuration):
             'rest_framework.authentication.TokenAuthentication',
         )
     }
+
+    # CORS_ORIGIN_ALLOW_ALL = True
+    # CORS_ALLOW_HEADERS = default_headers + ('x-token',)

@@ -1,29 +1,42 @@
-version: '2'
+version: '3'
 
 services:
   postgres:
-    image: postgres:9.6
-  web:
-    restart: always
-    environment:
-      - DJANGO_SECRET_KEY=local
-    image: web
-    build: ./
-    command: >
-      bash -c "python wait_for_postgres.py &&
-               ./manage.py migrate &&
-               ./manage.py runserver 0.0.0.0:8000"
+    image: postgres:10.6-alpine
     volumes:
-      - ./:/code
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    env_file: .env
+
+  app:
+    restart: always
+
+    image: app
+    build: ./
+#    command: >
+#      bash -c "python wait_for_postgres.py &&
+#               ./manage.py migrate &&
+#               ./manage.py runserver 0.0.0.0:8000"
+    command: >
+       bash -c "./manage.py migrate &&
+                ./manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./:/app
     ports:
       - "8000:8000"
     depends_on:
       - postgres
-  documentation:
-    restart: always
-    build: ./
-    command: "mkdocs serve"
-    volumes:
-      - ./:/code
+    env_file: .env
+
+  nginx:
+    image: nginx:1.14-alpine
     ports:
-      - "8001:8001"
+      - 80:80
+    volumes:
+      - ./nginx/dev.conf:/etc/nginx/nginx.conf:ro
+      - ./{{ cookiecutter.app_name }}/media:/media/
+      - ./{{ cookiecutter.app_name }}/static:/static/
+volumes:
+    db-data:
+

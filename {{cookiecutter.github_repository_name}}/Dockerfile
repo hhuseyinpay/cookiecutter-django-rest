@@ -5,9 +5,9 @@ ENV PYTHONUNBUFFERED 1
 COPY ./requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-# Adds our application code to the image
-COPY . code
-WORKDIR code
+# Adds our application app to the image
+COPY . app
+WORKDIR app
 
 EXPOSE 8000
 
