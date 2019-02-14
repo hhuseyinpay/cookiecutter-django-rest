@@ -47,7 +47,9 @@ class Common(Configuration):
     ROOT_URLCONF = '{{ cookiecutter.app_name }}.urls'
     SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
     WSGI_APPLICATION = '{{ cookiecutter.app_name }}.wsgi.application'
-
+    
+    DJANGO_CONFIGURATION= os.getenv('DJANGO_CONFIGURATION', 'Local')
+    
     # Email
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
@@ -58,7 +60,7 @@ class Common(Configuration):
     # Postgres
     DATABASES = {
         'default': dj_database_url.config(
-            default='postgres://postgres:@postgres:5432/postgres',
+            default='postgres://' + os.getenv('POSTGRES_USER') +':'+ os.getenv('POSTGRES_PASSWORD') + '@postgres:5432/'+os.getenv('POSTGRES_DB'),
             conn_max_age=int(os.getenv('POSTGRES_CONN_MAX_AGE', 600))
         )
     }
