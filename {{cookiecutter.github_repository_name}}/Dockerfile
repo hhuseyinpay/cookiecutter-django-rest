@@ -12,6 +12,7 @@ WORKDIR app
 EXPOSE 8000
 
 # Migrates the database, uploads staticfiles, and runs the production server
-CMD ./manage.py migrate && \
-    ./manage.py collectstatic --noinput && \
-    gunicorn --bind 0.0.0.0:8000 {{cookiecutter.app_name}}.wsgi:application
+RUN python manage.py migrate
+RUN python manage.py collectstatic --no-input
+
+CMD gunicorn --bind 0.0.0.0:8000 --chdir=/app {{cookiecutter.app_name}}.wsgi:application

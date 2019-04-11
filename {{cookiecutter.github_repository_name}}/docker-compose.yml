@@ -1,14 +1,6 @@
 version: '3'
 
 services:
-  postgres:
-    image: postgres:10.6-alpine
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
-    env_file: .env
-
   app:
     restart: always
     build: ./
@@ -20,7 +12,7 @@ services:
     #command: >
     #   bash -c "./manage.py migrate &&
     #            ./manage.py runserver 0.0.0.0:8000"
-    #command: gunicorn -w 4 -b 0.0.0.0:8000 {{ cookiecutter.app_name }}.wsgi:application
+    #command: gunicorn -w 4 -b 0.0.0.0:8000 --chdir=/app {{ cookiecutter.app_name }}.wsgi:application
 
     volumes:
       - ./:/app
@@ -35,11 +27,20 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./nginx/production.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - static-volume:/static/
       - media-volume:/media/
     depends_on:
       - app
+
+  postgres:
+    image: postgres:10.6-alpine
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    env_file: .env
+
 volumes:
   db-data:
   static-volume:
