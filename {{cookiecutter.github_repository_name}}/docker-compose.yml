@@ -20,6 +20,7 @@ services:
       - media-volume:/app/media
     depends_on:
       - postgres
+      - redis
     env_file: .env
 
   nginx:
@@ -38,11 +39,16 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     ports:
-      - 5432:5432
+      - 1900:5432
     env_file: .env
 
+  redis:
+    image: redis:4.0-alpine
+    volumes:
+      - redis_data:/data
 volumes:
   db-data:
+  redis_data:
   static-volume:
   media-volume:
 
