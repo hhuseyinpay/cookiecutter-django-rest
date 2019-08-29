@@ -1,14 +1,14 @@
 # Core
 pytz==2019.*
-Django==2.1.*
-django-filter==2.1.*
+Django==2.2.*
+django-filter==2.2.*
 django-configurations==2.*
 
-djangorestframework==3.9.*
+djangorestframework==3.10.*
 drf-yasg==1.*
-django-cors-headers==2.*
+django-cors-headers==3.*
 
-django-stubs==0.*
+django-stubs==1.*
 djangorestframework-stubs==0.*
 gunicorn==19.9.*
 
@@ -19,6 +19,7 @@ dj-database-url==0.5.*
 
 # Model Tools
 django-model-utils==3.*
+django-simple-history==2.7.*
 
 # Developer Tools
 ipdb==0.11
@@ -29,8 +30,8 @@ sentry-sdk==0.*
 
 # tasks
 celery[redis]==4.3.*
-django-celery-beat==1.3.*
-flower==0.9.*
+django-celery-beat==1.5.*
+flower==1.*
 
 # cache
 django-redis==4.10.*
