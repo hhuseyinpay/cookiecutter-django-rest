@@ -24,10 +24,13 @@ class Common(Configuration):
         'rest_framework.authtoken',  # token authentication
         'django_filters',            # for filtering rest endpoints
         'drf_yasg',                  # swagger
-        'corsheaders',               # for ajax queries
+        'corsheaders',               # for ajax queries        
+        'djoser',                    # authentication
+        'simple_history',            # logging
 
         # Your apps
-        '{{cookiecutter.app_name}}.accounts',
+        '{{cookiecutter.app_name}}.utils'
+        '{{cookiecutter.app_name}}.users',
 
     )
 
@@ -41,6 +44,7 @@ class Common(Configuration):
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        'simple_history.middleware.HistoryRequestMiddleware',
     )
 
     ALLOWED_HOSTS = ["*"]
@@ -57,12 +61,21 @@ class Common(Configuration):
         ('Author', '{{cookiecutter.email}}'),
     )
 
+"""
     # Postgres
     DATABASES = {
         'default': dj_database_url.config(
             default='postgres://' + os.getenv('POSTGRES_USER') +':'+ os.getenv('POSTGRES_PASSWORD') + '@postgres:5432/'+os.getenv('POSTGRES_DB'),
             conn_max_age=int(os.getenv('POSTGRES_CONN_MAX_AGE', 600))
         )
+    }
+"""
+
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        }
     }
 
     # General
@@ -187,7 +200,7 @@ class Common(Configuration):
     }
 
     # Custom user app
-    AUTH_USER_MODEL = 'accounts.User'
+    AUTH_USER_MODEL = 'users.User'
 
     # Django Rest Framework
     REST_FRAMEWORK = {
@@ -209,3 +222,55 @@ class Common(Configuration):
 
     # CORS_ORIGIN_ALLOW_ALL = True
     # CORS_ALLOW_HEADERS = default_headers + ('x-token',)
+
+    DJOSER = {
+        "USER_ID_FIELD": 'uid',
+        "SEND_ACTIVATION_EMAIL": False,
+        "SEND_CONFIRMATION_EMAIL": False,
+        "SOCIAL_AUTH_ALLOWED_REDIRECT_URIS": ["http://test.localhost/"],
+        "HIDE_USERS": False,
+        "PERMISSION": {
+            'user_create': ['rest_framework.permissions.AllowAny'],
+            'token_create': ['rest_framework.permissions.AllowAny'],
+
+            'token_destroy': ['rest_framework.permissions.IsAuthenticated'],
+
+            'user': ['djoser.permissions.AllowAny'],
+            'set_password': ['djoser.permissions.CurrentUserOrAdmin'],
+            'set_username': ['djoser.permissions.CurrentUserOrAdmin'],
+
+            'user_list': ['djoser.permissions.IsAdminUser'],
+            'user_delete': ['rest_framework.permissions.IsAdminUser'],
+            'activation': ['rest_framework.permissions.IsAdminUser'],
+            'password_reset': ['rest_framework.permissions.IsAdminUser'],
+            'username_reset': ['rest_framework.permissions.IsAdminUser'],
+            'password_reset_confirm': ['rest_framework.permissions.IsAdminUser'],
+            'username_reset_confirm': ['rest_framework.permissions.IsAdminUser'],
+        }
+    }
+
+    JWT_AUTH = {"JWT_ALLOW_REFRESH": True}
+
+    SIMPLE_JWT = {
+        'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+        'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+        'ROTATE_REFRESH_TOKENS': False,
+        'BLACKLIST_AFTER_ROTATION': True,
+        'AUTH_HEADER_TYPES': ('Bearer',),
+        'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+        'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
+        'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+        'USER_ID_FIELD': 'uid',
+        'USER_ID_CLAIM': 'uid',
+    }
+
+    SWAGGER_SETTINGS = {
+        'SECURITY_DEFINITIONS': {
+            'api_key': {
+                'type': 'apiKey',
+                'in': 'header',
+                'name': 'Authorization'
+            }
+        },
+        'USE_SESSION_AUTH': False,
+    }

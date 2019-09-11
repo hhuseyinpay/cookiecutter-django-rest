@@ -1,41 +1,38 @@
-# Core
-pytz==2019.*
-Django==2.2.*
-django-filter==2.2.*
-django-configurations==2.*
+# django related
+Django>=2.2,<=2.3
+django-stubs>=1.0,<=2.0 # autocomplete
+django-filter>=2.2.0, <=2.3.0
+django-configurations>=2.0,<=3.0
+django-extensions>=2.2.0,<=2.3.0
+django-model-utils>=3.0,<=4.0
+django-simple-history>=2.7.0,<=2.8.0
+pillow>=6.1.0,<=6.2.0 # resimleri depolamak için
+gunicorn>=19.9.0,<=19.10.0
 
-djangorestframework==3.10.*
-drf-yasg==1.*
-django-cors-headers==3.*
+# rest framework
+djangorestframework>=3.10.0,<=3.11.0
+djangorestframework-stubs>=0.1,<=1.0 # autocomplete
+djangorestframework-simplejwt>=4.3.0,<=4.4.0
+djoser>=2.0.0,<=2.1.0 # authentication system
+django-cors-headers>=3.0,<=3.1
+drf-yasg>=1.0,<=2.0 # swagger
+packaging==19.1 # swagger için, bir bug var
 
-django-stubs==1.*
-djangorestframework-stubs==0.*
-gunicorn==19.9.*
-
-
-# For the persistence stores
-psycopg2-binary==2.*
-dj-database-url==0.5.*
-
-# Model Tools
-django-model-utils==3.*
-django-simple-history==2.7.*
+# db
+psycopg2-binary>=2.0,<=3.0
+dj-database-url>=0.5.0,<=0.6.0
 
 # Developer Tools
-ipdb==0.11
-ipython==7.2.0
+ipython
 
 # logging
-sentry-sdk==0.*
+sentry-sdk>=0.1,<=1.0
 
 # tasks
-celery[redis]==4.3.*
-django-celery-beat==1.5.*
-flower==1.*
+celery[redis]>=4.3.0,<=4.4.0
+django-celery-beat>=1.5.0,<=1.6.0
+flower>=0.9,<=1.0
 
 # cache
-django-redis==4.10.*
-django-cachalot==2.1.*
-
-
-	
+django-redis>=4.10.0,<=4.11.0
+django-cachalot>=2.1.0,<=2.1.1
