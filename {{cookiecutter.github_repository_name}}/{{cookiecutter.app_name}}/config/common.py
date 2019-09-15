@@ -1,5 +1,6 @@
 import os
 from os.path import join
+from datetime import timedelta
 from distutils.util import strtobool
 
 import dj_database_url
@@ -61,7 +62,7 @@ class Common(Configuration):
         ('Author', '{{cookiecutter.email}}'),
     )
 
-"""
+    """
     # Postgres
     DATABASES = {
         'default': dj_database_url.config(
@@ -69,7 +70,7 @@ class Common(Configuration):
             conn_max_age=int(os.getenv('POSTGRES_CONN_MAX_AGE', 600))
         )
     }
-"""
+    """
 
     DATABASES = {
         "default": {
