@@ -30,7 +30,7 @@ class Common(Configuration):
         'simple_history',            # logging
 
         # Your apps
-        '{{cookiecutter.app_name}}.utils'
+        '{{cookiecutter.app_name}}.utils',
         '{{cookiecutter.app_name}}.users',
 
     )
