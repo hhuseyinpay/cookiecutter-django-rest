@@ -1,7 +1,7 @@
 from django.db import models
 from django.dispatch import receiver
 from model_utils.models import TimeStampedModel, SoftDeletableModel
-from model_utils.managers import SoftDeletableManager
+from model_utils.managers import SoftDeletableManagerMixin
 from simple_history.models import HistoricalRecords
 from simple_history.signals import pre_create_historical_record
 
